@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
+    public static LoginPageController loginPageController;
     public TextField serviceAccountKeyPathField;
     public TextField webAPIKeyField;
     public TextField firebaseDatabaseURLField;
@@ -18,6 +19,7 @@ public class SettingsController implements Initializable {
     public TextField packageNameField;
     public ImageView folderIcon;
     public TextField syncClientURLField;
+    public TextField storageBucketField;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         readKeyData();
@@ -32,6 +34,7 @@ public class SettingsController implements Initializable {
        dynamicLinkDomainField.setText(Data.data.getDYNAMIC_LINK_DOMAIN());
        packageNameField.setText(Data.data.getANDROID_APP_PACKAGE_NAME());
        syncClientURLField.setText(Data.data.getSYNC_CLIENT_URL());
+       storageBucketField.setText(Data.data.getSTORAGE_BUCKET());
        System.out.print(Data.data);
     }
 
@@ -61,6 +64,8 @@ public class SettingsController implements Initializable {
         Data.data.setWEB_API_KEY(webAPIKeyField.getText());
         Data.data.setSYNC_CLIENT_URL(syncClientURLField.getText());
         Data.data.setFIREBASE_DATABASE_URL(firebaseDatabaseURLField.getText());
+        Data.data.setSTORAGE_BUCKET(storageBucketField.getText());
         Data.data.saveKeys();
+        loginPageController.switchToLoginPage();
     }
 }

@@ -25,6 +25,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.net.ConnectException;
+
 
 import static Data.Data.FIREBASE_KEYS_FILE_NAME;
 
@@ -89,6 +91,10 @@ public class LoginFormController implements Initializable {
                         updateMessage("Invalid username/password, please try again.");
 
                     }
+                } catch (ConnectException e){
+                    flag = false;
+                    updateProgress(0,100);
+                    updateMessage("Error: Network Connection Error");
                 } catch (Exception e) {
                     flag = false;
                     e.printStackTrace();
@@ -136,9 +142,10 @@ public class LoginFormController implements Initializable {
         Data data = new Data();
         FileInputStream serviceAccount = new FileInputStream(FIREBASE_KEYS_FILE_NAME);
         FirebaseOptions options = new FirebaseOptions.Builder()
-                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                 .setDatabaseUrl(data.getFIREBASE_DATABASE_URL())
-                 .build();
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl(data.getFIREBASE_DATABASE_URL())
+                .setStorageBucket(data.getSTORAGE_BUCKET())
+                .build();
         FirebaseApp.initializeApp(options);
 
     }
